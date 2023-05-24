@@ -1,0 +1,20 @@
+.container{
+	background-color: #ddd;
+	padding: 20px;
+}
+
+.message {
+	padding: 5px;
+	&_incoming {
+	}
+
+	&_outgoing {
+		text-align: right;
+	}
+
+	span {
+		border-radius: 10px;
+		background-color: #fff;
+		padding: 5px 10px ;
+	}
+}

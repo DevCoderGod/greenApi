@@ -1,0 +1,23 @@
+.auth {
+	display: flex;
+
+	label {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	input {
+		margin-left: 2px;
+	}
+
+	.inputsContainer {
+		margin-left: 10px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+	}
+
+	button {
+		margin-left: 10px;
+	}
+}
