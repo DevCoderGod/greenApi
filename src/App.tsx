@@ -5,16 +5,18 @@ import { Avatar } from "./components/Avatar";
 import { Auth } from './components/Auth/Auth';
 import { Chat } from './components/Chat/Chat';
 import { Sender } from './components/Sender/Sender';
+import { IUser } from './types';
 
 function App() {
 
+	const [user, setUser] = useState<IUser | null>(null)
 
 	return (
 		<div className={S.app}>
 			<div className={cn(S.leftpanel)}>
 				<div className={cn(S.header, S.header_left)}>
-					<Avatar />
-					<Auth/>
+					<Avatar auth={!!user}/>
+					<Auth onClick={setUser}/>
 				</div>
 			</div>
 			<div className={cn(S.rightpanel)}>

@@ -1,4 +1,10 @@
-export const Avatar = () => {
+import { IStateInstance } from "../types/Api"
+
+interface IProps{
+	auth: boolean
+}
+
+export const Avatar = (props:IProps) => {
 	return(
 		<svg
 			viewBox="0 0 212 212"
@@ -7,7 +13,7 @@ export const Avatar = () => {
 			version="1.1"
 		>
 			<path
-				fill="#DFE5E7"
+				fill={props.auth ? "#15b200" : "#DFE5E7"}
 				d="M106.251,0.5C164.653,0.5,212,47.846,212,106.25S164.653,212,106.25,212C47.846,212,0.5,164.654,0.5,106.25 S47.846,0.5,106.251,0.5z">
 			</path>
 			<g>
