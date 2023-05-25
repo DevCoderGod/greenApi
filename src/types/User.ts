@@ -1,5 +1,9 @@
+import { Api } from "../Api";
 import { IStateInstance } from "./Api";
 
 export interface IUser{
-	stateInstance: IStateInstance 
+	id:string
+	token:string
+	stateInstance: IStateInstance
+	api:Api
 }

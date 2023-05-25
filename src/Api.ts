@@ -1,6 +1,6 @@
-import { getStateInstanceResponse } from "./types/Api"
+import { IApi, ApiMethod, getStateInstanceResponse } from "./types/Api"
 
-export class Api {
+export class Api implements IApi{
 	id:string
 	token: string
 
@@ -20,8 +20,22 @@ export class Api {
 		return ({stateInstance:"notAuthorized"})
 	}
 
-	// url(method:string){
-	// 	return `https://api.green-api.com/waInstance${this.id}/${method}/${this.token}`
-	// }
-	
+	async request<REQ,RES>(apiMethod:ApiMethod, httpMethod?:"POST", body?:REQ):Promise<RES | undefined>{
+		try {
+			const url = `https://api.green-api.com/waInstance${this.id}/${apiMethod}/${this.token}`
+			const response = await fetch(
+				url,{
+					method:httpMethod ?? "GET",
+					headers: {
+						'Content-Type': 'application/json;charset=utf-8',
+					},
+					body: body ? JSON.stringify(body) : null
+				},
+			)
+			if(response.status === 200) return await response.json()
+			else console.log(`error: response.status = ${response.status}`)
+		} catch (error) {
+			console.log("error === ",error)
+		}
+	}
 }

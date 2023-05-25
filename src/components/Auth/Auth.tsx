@@ -15,8 +15,15 @@ export const Auth = (props:IProps) => {
 
 	async function onClick(){
 		const status = await Api.checkAccount(id,token)
-		if(status.stateInstance === "authorized")
-			props.onClick({stateInstance: status.stateInstance})
+		if(status.stateInstance === "authorized"){
+			const user ={
+				id,
+				token,
+				stateInstance: status.stateInstance,
+				api: new Api(id, token)
+			}
+			props.onClick(user)
+		}
 		else props.onClick(null)
 	}
 
