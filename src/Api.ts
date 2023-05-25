@@ -20,7 +20,7 @@ export class Api implements IApi{
 		return ({stateInstance:"notAuthorized"})
 	}
 
-	async request<REQ,RES>(apiMethod:TApiMethod, httpMethod?:"POST", body?:REQ):Promise<RES | undefined>{
+	async request<REQ,RES>(apiMethod:TApiMethod, httpMethod?:"POST" | "DELETE", body?:REQ):Promise<RES | undefined>{
 		try {
 			const url = `https://api.green-api.com/waInstance${this.id}/${apiMethod}/${this.token}`
 			const response = await fetch(
