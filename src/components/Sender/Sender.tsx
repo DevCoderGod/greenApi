@@ -19,6 +19,7 @@ export const Sender = (props:IProps) => {
 			chatId: `${props.corr?.phone}@c.us`,
 			message
 		})
+		setMessage("")
 	}
 
 	return(
