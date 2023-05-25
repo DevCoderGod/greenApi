@@ -5,11 +5,13 @@ import { Avatar } from "./components/Avatar";
 import { Auth } from './components/Auth/Auth';
 import { Chat } from './components/Chat/Chat';
 import { Sender } from './components/Sender/Sender';
-import { IUser } from './types';
+import { ICorr, IUser } from './types';
+import { Checker } from './components/Checker/Checker';
 
 function App() {
 
 	const [user, setUser] = useState<IUser | null>(null)
+	const [corr, setCorr] = useState<ICorr | null>(null)
 
 	return (
 		<div className={S.app}>
@@ -21,16 +23,13 @@ function App() {
 			</div>
 			<div className={cn(S.rightpanel)}>
 				<div className={cn(S.header, S.header_right)}>
-					<label>Phone: +
-						<input
-							type="text"
-							disabled={!user}
-						/>
-					</label>
-					<button disabled={!user}>New chat</button>
+					<Checker
+						user={user}
+						onClick={setCorr}
+					/>
 				</div>
 				<Chat/>
-				<Sender disabled={!user}/>
+				<Sender disabled={!user || !corr}/>
 			</div>
 		</div>
 	);
