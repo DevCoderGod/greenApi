@@ -1,4 +1,4 @@
-import { IApi, ApiMethod, getStateInstanceResponse } from "./types/Api"
+import { IApi, TApiMethod, IGetStateInstanceResponse } from "./types/Api"
 
 export class Api implements IApi{
 	id:string
@@ -9,7 +9,7 @@ export class Api implements IApi{
 		this.token=token
 	}
 
-	static async checkAccount(id:string, token:string):Promise<getStateInstanceResponse>{
+	static async checkAccount(id:string, token:string):Promise<IGetStateInstanceResponse>{
 		try {
 			const response = await fetch(`https://api.green-api.com/waInstance${id}/getStateInstance/${token}`)
 			if(response.status === 200) return await response.json()
@@ -20,7 +20,7 @@ export class Api implements IApi{
 		return ({stateInstance:"notAuthorized"})
 	}
 
-	async request<REQ,RES>(apiMethod:ApiMethod, httpMethod?:"POST", body?:REQ):Promise<RES | undefined>{
+	async request<REQ,RES>(apiMethod:TApiMethod, httpMethod?:"POST", body?:REQ):Promise<RES | undefined>{
 		try {
 			const url = `https://api.green-api.com/waInstance${this.id}/${apiMethod}/${this.token}`
 			const response = await fetch(

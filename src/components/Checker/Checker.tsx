@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ICorr, IUser } from '../../types'
-import { checkWhatsappRequest, checkWhatsappResponse } from '../../types/Api'
+import { ICheckWhatsappRequest, ICheckWhatsappResponse } from '../../types/Api'
 
 interface IProps{
 	user:IUser | null
-	onClick:(corr:ICorr)=>void
+	onClick:(corr:ICorr | null)=>void
 }
 
 export const Checker = (props:IProps) => {
@@ -17,10 +17,16 @@ export const Checker = (props:IProps) => {
 			return
 		}
 		if(props.user){
-			const responce = await props.user.api.request<checkWhatsappRequest,checkWhatsappResponse>
+			const responce = await props.user.api.request<ICheckWhatsappRequest,ICheckWhatsappResponse>
 				("checkWhatsapp","POST",{phoneNumber:parseInt(phone)})
-			if(!responce)return
-			props.onClick({existsWhatsapp: responce.existsWhatsapp})
+			if(!responce){
+				props.onClick(null)
+				return
+			}
+			props.onClick({
+				phone: phone,
+				existsWhatsapp: responce.existsWhatsapp
+			})
 		}
 	}
 

@@ -29,7 +29,10 @@ function App() {
 					/>
 				</div>
 				<Chat/>
-				<Sender disabled={!user || !corr}/>
+				<Sender
+					user={user}
+					corr={corr}
+				/>
 			</div>
 		</div>
 	);
