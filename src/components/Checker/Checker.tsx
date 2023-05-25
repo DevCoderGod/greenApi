@@ -19,14 +19,14 @@ export const Checker = (props:IProps) => {
 		if(props.user){
 			const responce = await props.user.api.request<ICheckWhatsappRequest,ICheckWhatsappResponse>
 				("checkWhatsapp","POST",{phoneNumber:parseInt(phone)})
-			if(!responce){
-				props.onClick(null)
+			if(responce && responce.existsWhatsapp){
+				props.onClick({
+					phone: phone,
+					existsWhatsapp: responce.existsWhatsapp
+				})
 				return
 			}
-			props.onClick({
-				phone: phone,
-				existsWhatsapp: responce.existsWhatsapp
-			})
+			props.onClick(null)
 		}
 	}
 
