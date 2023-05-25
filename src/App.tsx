@@ -21,11 +21,16 @@ function App() {
 			</div>
 			<div className={cn(S.rightpanel)}>
 				<div className={cn(S.header, S.header_right)}>
-					<label>Phone: +<input type="text" /></label>
-					<button>New chat</button>
+					<label>Phone: +
+						<input
+							type="text"
+							disabled={!user}
+						/>
+					</label>
+					<button disabled={!user}>New chat</button>
 				</div>
 				<Chat/>
-				<Sender/>
+				<Sender disabled={!user}/>
 			</div>
 		</div>
 	);

@@ -2,7 +2,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import S from './Sender.module.scss'
 import cn from 'classnames'
 
-interface IProps{}
+interface IProps{
+	disabled: boolean
+}
 
 export const Sender = (props:IProps) => {
 	return(
@@ -11,9 +13,9 @@ export const Sender = (props:IProps) => {
 				name="message"
 				id="a"
 				rows={1}
-				// disabled
+				disabled={props.disabled}
 			/>
-			<button>Send</button>
+			<button disabled={props.disabled}>Send</button>
 		</div>
 	)
 }
