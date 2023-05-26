@@ -10,8 +10,8 @@ interface IProps{
 
 export const Auth = (props:IProps) => {
 
-	const [id, setId] = useState<string>("1101824302")
-	const [token, setToken] = useState<string>("34b6497d8ad84e3b9e9eebd1d0d58bf460f8fe16e3ad46aa85")
+	const [id, setId] = useState<string>("")
+	const [token, setToken] = useState<string>("")
 
 	async function onClick(){
 		const status = await Api.checkAccount(id,token)

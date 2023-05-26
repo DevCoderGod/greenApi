@@ -7,34 +7,53 @@ import { Chat } from './components/Chat/Chat';
 import { Sender } from './components/Sender/Sender';
 import { ICorr, IMessage, IUser } from './types';
 import { Checker } from './components/Checker/Checker';
-import { GreenApiNotification, IDeleteNotificationRequest, IDeleteNotificationResponse } from './types/Api';
+import { GreenApiNotification, IDeleteNotificationResponse } from './types/Api';
 
 function App() {
 
 	const [user, setUser] = useState<IUser | null>(null)
 	const [corr, setCorr] = useState<ICorr | null>(null)
 	const [messages, setMessages] = useState<IMessage[]>([])
+	const [newMessage, setNewMessage] = useState<IMessage | null>(null)
+
+	async function deleteNotification(id:number){
+		await user?.api.requestDelete<IDeleteNotificationResponse>("deleteNotification",id)
+	}
+
+	async function receiveNotification() {
+		if(!corr) return
+		while (true) {
+			const notification = await user?.api.request<undefined,GreenApiNotification>("receiveNotification")
+			if(notification){
+				if(notification.body.senderData.chatId !== `${corr.phone}@c.us`){
+					deleteNotification(notification.receiptId)
+					return
+				}
+
+				const typeMessage = notification.body.messageData.typeMessage
+				if(typeMessage === "textMessage" || typeMessage === "extendedTextMessage"){
+					const message:IMessage = {
+						id:notification.body.idMessage,
+						type:notification.body.typeWebhook === "incomingMessageReceived" ? "incoming" : "outgoing",
+						text:typeMessage === "textMessage"
+							? notification.body.messageData.textMessageData?.textMessage ?? ""
+							: notification.body.messageData.extendedTextMessageData?.text ?? ""
+					}
+					if(message.text.length>0)setNewMessage(message)
+				}
+				await deleteNotification(notification.receiptId)
+			}
+		}
+	}
 
 	useEffect(()=>{
-		if(!corr)return
-		user?.api.request<undefined,GreenApiNotification>("receiveNotification")
-		.then((notif)=>{
-			if(!notif) return
-			const arr:IMessage[] = [...messages,{
-				id:notif.body.idMessage,
-				type:notif.body.typeWebhook === "incomingMessageReceived" ? "incoming" : "outgoing",
-				text:notif.body.messageData.textMessageData.textMessage
-			}]
-			setMessages(arr)
-			console.log("notification..receiptId === ",notif.receiptId)
-			user?.api.request<IDeleteNotificationRequest,IDeleteNotificationResponse>(
-				"deleteNotification",
-				"DELETE",
-				{receiptId:notif.receiptId}	
-			)
-		})
-		// setInterval(()=>{
-		// },600000)
+		if(!newMessage)return
+		setMessages([...messages, newMessage])
+	},[newMessage])
+
+	useEffect(()=>{
+		setMessages([])
+		receiveNotification()
 	},[corr])
 
 	return (
