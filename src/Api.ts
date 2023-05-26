@@ -38,4 +38,19 @@ export class Api implements IApi{
 			console.log("error === ",error)
 		}
 	}
+
+	async requestDelete<RES>(apiMethod:TApiMethod, receiptId:number):Promise<RES | undefined>{
+		try {
+			const url = `https://api.green-api.com/waInstance${this.id}/${apiMethod}/${this.token}/${receiptId}`
+			const response = await fetch(
+				url,{
+					method:"DELETE"
+				},
+			)
+			if(response.status === 200) return await response.json()
+			else console.log(`error: response.status = ${response.status}`)
+		} catch (error) {
+			console.log("error === ",error)
+		}
+	}
 }
