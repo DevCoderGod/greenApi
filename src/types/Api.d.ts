@@ -48,10 +48,16 @@ export interface GreenApiNotification{
 	body:{
 		typeWebhook:"incomingMessageReceived" | "outgoingMessageReceived" | "outgoingAPIMessageReceived"
 		idMessage:string
+		senderData:{
+			chatId:string
+		}
 		messageData:{
-			typeMessage: "textMessage"
-			textMessageData: {
+			typeMessage: "textMessage" | "imageMessage" | "extendedTextMessage"
+			textMessageData?: {
 				textMessage:string
+			}
+			extendedTextMessageData?: {
+				text:string
 			}
 		}
 	}
