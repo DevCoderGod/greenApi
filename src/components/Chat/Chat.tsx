@@ -10,16 +10,18 @@ interface IProps{
 export const Chat = (props:IProps) => {
 	return(
 		<div className={cn(S.container)}>
-			{props.messages.map(m=>{
-				return(
-					<div
-						key={m.id}
-						className={cn(S.message, S[m.type === "incoming" ? "message_incoming" : "message_outgoing"])}
-					>
-						<span>{m.text}</span>
-					</div> 
-				)
-			})}
+			<div>
+				{props.messages.map(m=>{
+					return(
+						<div
+							key={m.id}
+							className={cn(S.message, S[m.type === "incoming" ? "message_incoming" : "message_outgoing"])}
+						>
+							<span>{m.text}</span>
+						</div> 
+					)
+				})}
+			</div>
 		</div>
 	)
 }
